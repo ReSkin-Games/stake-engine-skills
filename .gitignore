@@ -1,0 +1,11 @@
+.DS_Store
+*.tar.gz
+*.zip
+node_modules/
+__pycache__/
+*.pyc
+.venv/
+venv/
+.env
+.idea/
+.vscode/
