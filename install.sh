@@ -33,7 +33,27 @@ done
 
 echo
 echo "Both Stake Engine skills installed at ${TARGET}/."
-echo "Restart Claude Code (or open a new session) to load them."
+echo
+
+# Offer to install the Stake docs MCP server for live doc access.
+if [ "${SKIP_MCP:-0}" != "1" ] && [ -f "${SCRIPT_DIR}/install-mcp.sh" ]; then
+  echo "Stake also publishes an MCP server that gives Claude live access to the"
+  echo "current docs (search and fetch by page). The skills work fine without it"
+  echo "but the MCP server keeps content fresh between skill releases."
+  echo
+  read -p "Install the Stake docs MCP server too? [Y/n] " yn
+  case "${yn}" in
+    [Nn]*)
+      echo "Skipping MCP server. You can install later with: ./install-mcp.sh"
+      ;;
+    *)
+      bash "${SCRIPT_DIR}/install-mcp.sh" || echo "WARN: MCP install failed; skills still work."
+      ;;
+  esac
+  echo
+fi
+
+echo "Restart Claude Code (or open a new session) to load the skills."
 echo
 echo "Triggers:"
 echo "  stake-math-sdk → mentions of math-sdk, slot math, books, RTP, optimizer, bet mode"

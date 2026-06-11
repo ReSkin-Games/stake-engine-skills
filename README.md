@@ -32,6 +32,8 @@ cd stake-engine-skills
 ./install.sh
 ```
 
+`install.sh` will offer to also install Stake's official MCP server for live doc access (`stake-engine-docs`). Recommended — accept with `[Y]`. Skip with `SKIP_MCP=1 ./install.sh` if you'd rather install it manually later via `./install-mcp.sh`.
+
 ## Use
 
 Open Claude Code in any folder and say:
@@ -83,6 +85,26 @@ The `SKILL.md` is loaded into Claude's context when the skill activates; referen
 | Other | Python 3.12+, make, optionally Rust/Cargo for the bundled optimizer | Node 22.x, pnpm 10.x (install steps included in bootstrap) |
 
 The bootstrap scripts check prerequisites and tell you what to install if anything is missing.
+
+## Supported tools
+
+The skills are primarily authored for **Claude Code** (full progressive disclosure, bootstrap automation, on-demand references). Other AI dev tools get a lighter integration:
+
+| Tool | Skill activation | Bootstrap automation | Live doc search |
+|---|---|---|---|
+| **Claude Code** | full skill (`SKILL.md` + 21–27 references) auto-loads by trigger | atomic scripts run by the agent | MCP server (auto-registered by `install.sh`) |
+| **Cursor** | `AGENTS.md` at repo root (passive context) | scripts available, agent must invoke explicitly | MCP server (manual add to `~/.cursor/mcp.json`) |
+| **Windsurf** | `AGENTS.md` (passive) | scripts available, agent must invoke explicitly | MCP server (manual add to `~/.codeium/windsurf/mcp_config.json`) |
+| **Codex CLI** | `AGENTS.md` (its native convention) | scripts via tool calls | MCP server (manual add) |
+| **Aider / Copilot / others** | manual: paste `AGENTS.md` into instructions | none — run scripts by hand | MCP only if the tool speaks MCP |
+
+For non-Claude-Code tools:
+
+1. Copy `AGENTS.md` to the root of your project (or set it as a global rules file).
+2. Run `./install-mcp.sh` to set up the live-doc MCP server. The script prints the JSON snippet to paste into your tool's MCP config.
+3. Bootstrap scripts in `stake-math-sdk/scripts/` and `stake-web-sdk/scripts/` can be run from any shell — you just don't get the auto-activation that Claude Code provides.
+
+If you'd like a first-class adapter for a specific tool (Cursor `.mdc` rules, Windsurf workflows, etc.), open an issue or [start a discussion](https://github.com/ReSkin-Games/stake-engine-skills/discussions).
 
 ## Updating
 

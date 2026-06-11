@@ -17,9 +17,12 @@ This skill helps build slot game math models for [Stake Engine](https://engine.s
 
 Source of truth (in order of priority):
 1. The user's clone of `StakeEngine/math-sdk` (the actual code).
-2. Upstream README at <https://github.com/StakeEngine/math-sdk>.
-3. Official docs at <https://stakeengine.github.io/math-sdk/>.
-4. These references (distilled from the above).
+2. **`stake-engine-docs` MCP server** if registered (tools: `mcp__stake-engine-docs__search_docs`, `get_page`, `list_pages`, `get_section_tree`) — verbatim current docs.
+3. Upstream README at <https://github.com/StakeEngine/math-sdk>.
+4. Official docs at <https://stakeengine.github.io/math-sdk/>.
+5. These references (distilled from the above; may lag upstream by one release).
+
+If the user asks a question that needs an exact current quote (e.g., "what's the latest RTP requirement?") and the MCP server is registered, prefer it over the distilled references.
 
 ## Glossary (use these terms consistently)
 
