@@ -73,25 +73,26 @@ fi
 echo "==> Server built at: ${ENTRY}"
 echo ""
 
-# Register with Claude Code if the CLI is available.
+# Register with Claude Code (user scope) if the CLI is available.
 if command -v claude >/dev/null 2>&1; then
-  echo "==> Registering with Claude Code..."
-  # If already registered, claude mcp add will fail; check first.
-  if claude mcp get stake-engine-docs >/dev/null 2>&1; then
-    echo "    already registered — skipping"
+  echo "==> Registering with Claude Code (user scope)..."
+  # `claude mcp get` prints details on stdout and returns 0 if registered, 1 otherwise.
+  # Grep on the specific server name to avoid false positives.
+  if claude mcp get stake-engine-docs 2>&1 | grep -q "^stake-engine-docs:"; then
+    echo "    already registered — skipping (use 'claude mcp remove stake-engine-docs' to reset)"
   else
-    if claude mcp add stake-engine-docs -- node "${ENTRY}"; then
-      echo "    OK: registered as 'stake-engine-docs'"
+    if claude mcp add -s user stake-engine-docs -- node "${ENTRY}"; then
+      echo "    OK: registered at user scope (available in all projects)"
       echo "    Restart Claude Code to load the new MCP server."
     else
       echo "    WARN: registration failed; add manually with:" >&2
-      echo "      claude mcp add stake-engine-docs -- node ${ENTRY}" >&2
+      echo "      claude mcp add -s user stake-engine-docs -- node ${ENTRY}" >&2
     fi
   fi
 else
   echo "==> Claude Code CLI not found — skipping auto-registration."
   echo "    To use this MCP server in Claude Code, run:"
-  echo "      claude mcp add stake-engine-docs -- node ${ENTRY}"
+  echo "      claude mcp add -s user stake-engine-docs -- node ${ENTRY}"
 fi
 
 echo ""

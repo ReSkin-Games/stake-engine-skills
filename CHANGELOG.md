@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.2.1 — 2026-06-11
+
+- **Fix**: `install-mcp.sh` now registers at user scope (`-s user`) so the MCP server is available in all projects, not just the directory where install ran.
+- **Fix**: "already registered" detection no longer reports false positives.
+- `uninstall-mcp.sh` cleans up both user and local scopes.
+
 ## 0.2.0 — 2026-06-11
 
 - **Stake MCP server integration**: `install.sh` now offers to install Stake's official `stake-engine-docs` MCP server alongside the skills. Once registered (auto-detected via the `claude mcp add` CLI), Claude can query the live docs by `search_docs`, `get_page`, `list_pages`, `get_section_tree`. Both `SKILL.md` files updated to prefer MCP results over distilled references when an exact current quote is needed.
